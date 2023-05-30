@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+  web-server:
+    image: admin2002/php_netb
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+      - phpmyadmin
+
+  db:
+    image: admin2002/mysql_pobedni
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE: 'Museum_register'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
+    environment:
+      PMA_HOST: 'db'
+      PMA_USER: 'root'
+      PMA_PASSWORD: '1'
+    ports:
+      - "5000:80"
+
+volumes:
+  mysql-data:
